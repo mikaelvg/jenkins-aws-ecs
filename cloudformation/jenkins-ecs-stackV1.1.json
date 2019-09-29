@@ -8,7 +8,7 @@
       "Default": ""
     },
     "AllowedIPRange": {
-      "Description": "The public IP address range that can be used to connect to the instances",
+      "Description": "All valid public IP address can connect to the instances.",
       "Type": "String",
       "MinLength": "9",
       "MaxLength": "18",
@@ -17,7 +17,7 @@
       "ConstraintDescription": "must be a valid IP CIDR range of the form x.x.x.x/x."
     },
     "VPCIPRange": {
-      "Description": "The private IP address range for allocating IPs within the VPC.",
+      "Description": "All valid private IP address can allocating IPs within the VPC.",
       "Type": "String",
       "MinLength": "9",
       "MaxLength": "18",
@@ -30,14 +30,12 @@
       "Type": "String",
       "Default": "t2.micro",
       "AllowedValues": [
-        "t2.micro",
-        "t2.small",
-        "t2.medium"
+        "t2.micro"
       ],
       "ConstraintDescription": "Must be a valid EC2 instance type."
     },
     "DockerImage": {
-      "Description": "The docker image to use for Jenkins",
+      "Description": "TO DO: Update this to Jenkins Blue Ocean",
       "Type": "String",
       "Default": "mikaelvg/jenkins-aws-ecs"
     }
@@ -95,7 +93,11 @@
             "Value": {
               "Ref": "AWS::StackId"
             }
-          }
+          },
+          {
+            "Key": "Name",
+            "Value": "Jenkins-Kim"
+          }          
         ]
       }
     },
@@ -112,7 +114,11 @@
           {
             "Key": "Network",
             "Value": "Public"
-          }
+          },
+          {
+            "Key": "Name",
+            "Value": "Jenkins-Kim"
+          }                
         ]
       }
     },
@@ -124,7 +130,7 @@
         },
         "InternetGatewayId": {
           "Ref": "InternetGateway"
-        }
+        }        
       }
     },
     "RouteTable": {
@@ -132,7 +138,13 @@
       "Properties": {
         "VpcId": {
           "Ref": "VPC"
-        }
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Jenkins-Kim"
+          }                
+        ]        
       }
     },
     "SubnetRouteTableAssoc": {
@@ -155,7 +167,7 @@
         },
         "GatewayId": {
           "Ref": "InternetGateway"
-        }
+        } 
       }
     },
     "Subnet": {
@@ -171,7 +183,11 @@
             "Value": {
               "Ref": "AWS::StackId"
             }
-          }
+          },
+          {
+            "Key": "Name",
+            "Value": "Jenkins-Kim"
+          }            
         ]
       }
     },
@@ -215,7 +231,13 @@
               ]
             }
           }
-        ]
+        ],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Jenkins-Kim"
+          }                
+        ]          
       }
     },
     "EC2Role":{
@@ -255,7 +277,13 @@
               ]
             }
           }
-        ]
+        ],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Jenkins-Kim"
+          }                
+        ]          
       }
     },
     "JenkinsECSInstanceProfile": {
@@ -301,7 +329,13 @@
               "Ref": "VPCIPRange"
             }
           }
-        ]
+        ],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Jenkins-Kim"
+          }                
+        ]                  
       }
     },
     "JenkinsELBSecurityGroup": {
@@ -320,7 +354,13 @@
               "Ref": "AllowedIPRange"
             }
           }
-        ]
+        ],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Jenkins-Kim"
+          }                
+        ]        
       }
     },
     "EFSSecurityGroup": {
@@ -339,7 +379,13 @@
               "Ref": "VPCIPRange"
             }
           }
-        ]
+        ],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Jenkins-Kim"
+          }                
+        ]        
       }
     },
     "JenkinsEFS": {
@@ -348,7 +394,7 @@
         "FileSystemTags": [
           {
             "Key": "Name",
-            "Value": "JenkinsEFS"
+            "Value": "Jenkins-Kim"
           }
         ]
       }
@@ -407,13 +453,25 @@
           "Target": "HTTP:8080/login",
           "Timeout": "2",
           "UnhealthyThreshold": "10"
-        }
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Jenkins-Kim"
+          }                
+        ]          
       }
     },
     "JenkinsCluster": {
       "Type": "AWS::ECS::Cluster",
       "Properties": {
-        "ClusterName": "jenkins-cluster"
+        "ClusterName": "jenkins-cluster",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Jenkins-Kim"
+          }                
+        ]           
       }
     },
     "JenkinsMasterTaskDefinition": {
@@ -458,7 +516,13 @@
             "Name": "data-volume"
           }
         ]
-      }
+      },
+      "Tags": [
+        {
+          "Key": "Name",
+          "Value": "Jenkins-Kim"
+        }                
+      ]         
     },
     "JenkinsECSService": {
       "DependsOn": ["JenkinsELB"],
@@ -557,9 +621,9 @@
         "LaunchConfigurationName": {
           "Ref": "JenkinsECSLaunchConfiguration"
         },
-        "MinSize": "2",
-        "MaxSize": "5",
-        "DesiredCapacity": "2",
+        "MinSize": "1",
+        "MaxSize": "3",
+        "DesiredCapacity": "1",
         "HealthCheckType": "EC2",
         "HealthCheckGracePeriod": "400",
         "Tags": [
@@ -582,7 +646,7 @@
         "PolicyType" : "StepScaling",
         "StepAdjustments" : [ {
           "MetricIntervalLowerBound" : 0,
-          "ScalingAdjustment" : 2
+          "ScalingAdjustment" : 1
         }]
       }
     },

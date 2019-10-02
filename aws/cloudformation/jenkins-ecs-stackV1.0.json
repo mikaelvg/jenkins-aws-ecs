@@ -462,7 +462,7 @@
           "Ref": "JenkinsMasterTaskDefinition"
         },
         "Role" : { "Ref" : "ECSServiceRole" },
-        "LoadBalancers": [
+        "`Load`Balancers": [
           {
             "LoadBalancerName": "jenkins-elb",
             "ContainerPort": "8080",
@@ -548,9 +548,9 @@
         "LaunchConfigurationName": {
           "Ref": "JenkinsECSLaunchConfiguration"
         },
-        "MinSize": "2",
-        "MaxSize": "5",
-        "DesiredCapacity": "2",
+        "MinSize": "1",
+        "MaxSize": "3",
+        "DesiredCapacity": "1",
         "HealthCheckType": "EC2",
         "HealthCheckGracePeriod": "400",
         "Tags": [

@@ -1,0 +1,17 @@
+apiVersion: v1
+name: jenkins
+home: https://jenkins.io/
+version: 1.7.2
+appVersion: lts
+description: Supports multiple SCM tools
+  It can execute Apache Ant and Apache Maven-based
+  projects as well as arbitrary scripts.
+sources:
+- https://github.com/jenkinsci/jenkins
+- https://github.com/jenkinsci/docker-jnlp-slave
+- https://github.com/maorfr/kube-tasks
+- https://github.com/jenkinsci/configuration-as-code-plugin
+maintainers:
+- name: mikaelvg
+  email: mikaelvg@gmail.com
+icon: https://wiki.jenkins-ci.org/download/attachments/2916393/logo.png

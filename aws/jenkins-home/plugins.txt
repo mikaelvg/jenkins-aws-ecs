@@ -27,3 +27,5 @@ structs:1.9
 token-macro:2.0
 workflow-scm-step:2.3
 workflow-step-api:2.12
+cloudbees-bitbucket-branch-source:2.5.0
+github-organization-folder:1.6
